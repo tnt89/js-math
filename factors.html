@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+<script>
+    function getFactors(integer){
+      var factors = [],
+      quotient = 0;
+
+      for(var i = 1; i <= integer; i++){
+        quotient = integer/i;
+
+        if(quotient === Math.floor(quotient)){
+          factors.push(i); 
+        }
+      }
+      return factors;
+    }
+
+    var num=0;
+    $(document).ready(function () {
+    $(function () {
+        $("#includedContent").load("header.html");
+    });
+    $('#submitButton').click(function () {
+        $('#details').show();
+        num = $('#input1').val();
+        if (num.length==0)
+        {
+            alert("You must enter a number.");
+        }            
+        else if (!isNaN(num))
+        {
+            if (num<2)
+            {
+                alert("Number cannot be negative and should be greater than 2.");
+            }
+            else
+            {
+                var strFactors = "";
+                factors = getFactors(num);
+                for (var q in factors)
+                {
+                    strFactors = strFactors + factors[q] + ", ";
+                }
+
+                $('#details').html("<p><b>The factors are: " + strFactors + "</b></p><p>(Try some larger numbers, up to 99999.)</p>");
+            }            
+        }
+        else
+        {
+            alert("You must enter a valid number.")
+        }
+    });
+
+});
+</script>
+
+    <div id="includedContent"></div>
+    <div class="container">
+    <h3>Factoring Numbers</h3>
+
+    <div id="inputform">
+        <p>This program finds all factors of the entered number.</p>
+        <p><input name="input1" id="input1" type="text"  placeholder="enter number" value="99" maxlength="5" size="5" />&nbsp;&nbsp;<input type="submit" id="submitButton" value="Calculate Factors of a Number"/></p>
+    </div>
+
+    <br/><br/>
+
+    <div id="details" style="display:none;">
+    </div>
+</div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script>
+
+            // function that adds 2 numbers together
+            // if not a number (NaN) then assign it to zero
+            function add(x, y) {
+                if (isNaN(x))
+                    x=0;
+                if (isNaN(y))
+                    y=0;
+                x = parseFloat(x);  // convert to float
+                y = parseFloat(y);
+                return x + y;
+            }
+
+            var num1=0;
+            var num2=0;
+            $(document).ready(function () {
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+            $('#submitButton').click(function () {
+                $('#details').show();
+                num1 = $('#input1').val();
+                num2 = $('#input2').val();
+                $('#details').html("<p class=lead>The sum is " + add(num1,num2) + "&nbsp;<img src='images/start.jpg' alt='start' width='15px' height='15px' /><br/><br/><small>(Enter some new numbers)</small></p>");   
+            })
+            })
+
+        </script>
+        
+        <div id="includedContent"></div>
+        <div class="container" id="page">
+            <h3>Add Two Numbers Together</h3>
+
+            <p><b>A Beginning Project to Get Started</b></p>
+
+            <input type='text' id='input1' style="width:50px;" value="5"/>
+            &nbsp;&nbsp;<input type='text' id='input2' style="width:50px;" value="3" />
+            &nbsp;&nbsp;<input type='submit' id='submitButton' value='Add Numbers' />&nbsp;&nbsp;<b><==  Try It!</b>&nbsp;&nbsp;<img src="images/start.jpg" alt="star" height="15px" width="15px" />
+            <br/><br/><hr/><br/>
+            <div id='details'>
+            </div>
+        </div>
+    </body>
+</html>
+

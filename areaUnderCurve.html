@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script>
+            function getAreaOfRectangle(a, b, c, d, x, increment) {
+                var height = 0.0;
+                height = a * x * x * x + b * x * x + c * x + d;
+                var area = 0.0;
+                area = height * increment;
+                console.log(height);
+                return area;
+            }
+
+
+            function fx(a, b, c, d, x) {
+                // for graphing purposes, returns the function value
+                var y = 0.0;
+                y = a * x * x * x + b * x * x + c * x + d;
+                return y;
+            }
+
+            function getDataPoints(a, b, c, d, start, end, inc) {
+                // used to build data points for graphing only                           
+                var points = "";
+                var x = start;
+                while (x <= end) {
+                    y = fx(a, b, c, d, x);
+                    points = points + "[" + x + "," + y + "],"
+                    x = x + inc;
+                }
+                points = "<a href=http://mathcode.net/chart.cshtml?id=," + points + ">View Graph</a>";
+                $('#link').html("<p class=lead>" + points + "</p>");
+            }
+
+            $(document).ready(function () {
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+
+                $('#submitButton').click(function () {
+
+                    var start = parseFloat($('#start').val());
+                    var end = parseFloat($('#end').val());
+                    var x = 0.0;
+                    var totalArea = 0.0;
+                    var inc = parseFloat($('#inc').val()); ;
+                    x = start + 0.5 * inc;
+                    while (x < end) {
+                        totalArea = totalArea + getAreaOfRectangle(parseFloat($('#input1').val()), parseFloat($('#input2').val()), parseFloat($('#input3').val()), parseFloat($('#input4').val()), x, inc);
+                        x = x + inc;
+                    }
+                    $('#details').html("<p class=lead>The area under the curve is " + totalArea.toString() + "</p>");
+                    getDataPoints(parseFloat($('#input1').val()), parseFloat($('#input2').val()), parseFloat($('#input3').val()), parseFloat($('#input4').val()), start, end, inc);
+
+                });
+            });
+
+        </script>
+
+        <div id="includedContent"></div>
+        <div class="container" id="page">
+
+        <h3>&nbsp;&nbsp;Calculate the Area Under a Polynomial Curve</h3>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;f(x) = <input type="text" id="input1" style="width:30px;" value="0" />x^3 + <input type="text" id="input2" style="width:30px;" value="1"/>x^2 + 
+        <input type="text" id="input3" style="width:30px;" value="0" />x + <input type="text" id="input4" value="0" style="width:30px;"/></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;start: <input type="text" id="start" style="width:30px;" value="0" /> &nbsp;&nbsp;&nbsp;&nbsp;end: <input type="text" id="end" style="width:30px;" value="5" /> &nbsp;&nbsp;&nbsp;&nbsp;increment: <input type="text" id="inc" style="width:30px;" value="1" /></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" id="submitButton" value="Calculate Area" /> &nbsp;&nbsp;<b> <== Try It! </b> <img src="images/start.jpg" alt="star" height="20px" width="20px" /></p>
+        <br/><hr/><br/>
+        <table>
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><div id="details"></div><div id="link"></div></td>
+            </tr>
+        </table>
+        </div>
+    </body>
+</html>
+

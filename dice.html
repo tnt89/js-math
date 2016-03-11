@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <div id="includedContent"></div>
+        <div class="container">
+                    <h3><strong>Simulate Rolling Dice until Snake Eyes.</strong></h3>
+
+                    <script>
+
+
+                        // returns a number between 1 and maxnumber
+                        function getRandom(maxnumber) {
+                            var x = 0;
+                            x = Math.floor((Math.random() * maxnumber) + 1)
+                            //console.log(x)
+                            return x;
+                        }
+
+                        function getCardImage(num) {
+                            var cardImage = "";
+                            switch (num) {
+                                case 1:
+                                    cardImage = "<img src='images/dice1.jpg' alt='1' />"
+                                    break;
+                                case 2:
+                                    cardImage = "<img src='images/dice2.jpg' alt='1' />"
+                                    break;
+                                case 3:
+                                    cardImage = "<img src='images/dice3.jpg' alt='1' />"
+                                    break;
+                                case 4:
+                                    cardImage = "<img src='images/dice4.jpg' alt='1' />"
+                                    break;
+                                case 5:
+                                    cardImage = "<img src='images/dice5.jpg' alt='1' />"
+                                    break;
+                                case 6:
+                                    cardImage = "<img src='images/dice6.jpg' alt='1' />"
+                                    break;
+
+                            }
+                            return cardImage;
+                        }
+
+                        $(document).ready(function () {
+                        $(function () {
+                            $("#includedContent").load("header.html");
+                        });
+                            $('#rollDiceButton').click(function () {
+                                $('#flowchart').hide();
+                                var count = 1;
+                                var x1 = 0;
+                                var x2 = 0;
+                                var sum = 0;
+                                var strResults = "";
+                                //x1 = getRandom(6);
+                                //x2 = getRandom(6);
+                                //sum = x1 + x2;
+                                //strResults = strResults + "&nbsp;&nbsp;&nbsp;&nbsp;" + getCardImage(x1) + getCardImage(x2) + "<br/>";
+                                //console.log(strResults);
+                                while (sum != 2) {
+                                    x1 = getRandom(6);
+                                    x2 = getRandom(6);
+                                    sum = x1 + x2;
+                                    strResults = strResults + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + getCardImage(x1) + getCardImage(x2);
+                                    if (count % 3 == 0)
+                                        strResults = strResults + "<br/>"
+                                    count = count + 1;
+                                }
+                                $('#rollDiceDetails').html("&nbsp;&nbsp;&nbsp;&nbsp;Count: " + (count - 1).toString() + " rolls<br/><br/>" + strResults);
+                            });
+                        });
+                    </script>
+                    <br/>
+                    <input type="submit" id="rollDiceButton" value="Roll Dice" />&nbsp;&nbsp;&nbsp;<==&nbsp;&nbsp;<b>Try It!</b>&nbsp;&nbsp;<img src="../images/start.jpg" alt="star" width="20px" height="20px" />
+                    <br/><br/>
+                    <div id="rollDiceDetails"></div>
+                    <br/><hr/>
+                    <div id="flowchart" style="text-align: center"><img src="images/flow_dice.png" class="img-thumbnail" alt="flowchart dice" /></div>
+            </div>
+    </body>
+</html>
+
+
+

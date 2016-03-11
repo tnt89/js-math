@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+<body>
+<script>
+
+    function isNumberPrime(n) {
+        for (var i = 2; i < n; i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    var num = 0;
+    $(document).ready(function () {
+        $(function () {
+           $("#includedContent").load("header.html");
+        });
+        $('#isPrimeButton').click(function () {
+            $('#flowchart').hide();
+            $('#details').show();
+            num = $('#isPrime').val();
+            if (parseFloat(num) < 3) {
+                alert("Must enter number greater than 3.")
+            }
+            else {
+                var sum = 3;
+                var j = 0;
+                var count = 2
+                var primecount = 0;
+                var notPrime = false;
+                var strResults = "<p>&nbsp;&nbsp;&nbsp;All Prime Numbers Less Than " + num + ".</p><br/>&nbsp;&nbsp;&nbsp;1,&nbsp;&nbsp;&nbsp; 2,";
+
+                var strTable = "<table><tr><td bgcolor='yellow'>1</td><td bgcolor='yellow'>2</td>"
+                for (var i = 3; i <= num; i++) {
+                    if (isNumberPrime(i)) {
+                        sum = sum + i;
+                        primecount = primecount + 1;
+                        count = count + 1;
+                        strTable = strTable + "<td bgcolor='yellow'>" + i.toString() + "&nbsp;&nbsp;</td>"
+                        if (count % 10 == 0)
+                            strTable = strTable + "</tr>";
+                    }
+                    else
+                    {
+                        count = count + 1;
+                        strTable = strTable + "<td>" + i.toString() + "&nbsp;&nbsp;</td>";
+                        if (count % 10 == 0)
+                            strTable = strTable + "</tr>";
+                    }
+                }
+                strTable = strTable + "</table>";
+
+                $('#primeList').html(strTable);
+                $('#details').html("<b>The sum of all prime numbers less than " + num + ' is ' + sum + "</b>&nbsp;&nbsp;<img src='images/start.jpg' alt='star' width='15px' height='15px' /><p>(Increase the number to find more prime numbers!)</p>");
+            }
+        });
+    });
+</script>
+
+<div id="includedContent"></div>
+<div class='container' id='page'>
+<br/>
+<div id="inputform">
+    <p class="lead">Display and sum all prime numbers equal to or less than the entered number.</p>
+    <p><input name="isPrime" id="isPrime" type="text" placeholder="enter number" value="125" size="5" maxlength="5" />&nbsp;&nbsp;<input type="submit" id="isPrimeButton" value="Calculate Sum of Prime Numbers"/>&nbsp;&nbsp;&nbsp;<==&nbsp;&nbsp;<b>Try It!</b>&nbsp;&nbsp;<img src="../images/start.jpg" alt="star" width="20px" height="20px" /></p>
+</div>
+
+<br/><hr/><br/>
+
+<div id="details"></div>
+<br/>
+<div id="primeList"></div>
+<br/><br/>
+
+<div id="flowchart" style="text-align: center"><img src="/images/flow_prime.png" class="img-thumbnail" alt="flowchart prime" /></div>
+
+</div>
+</body>
+</html>
+
+

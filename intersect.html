@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script type="text/JavaScript">
+
+            function round(x) {
+                return Math.round(x * 100) / 100
+            }
+            function getY(m, b, x) {
+                return m * x + b;
+            }
+
+            function calcError(y1, y2) {
+                var err = y1 - y2;
+                if (err < 0)
+                    err = err * -1;
+                return err;
+            }
+
+            function getNextGuess(m1, m2, b1, b2, curGuess) {
+                // use algebra to calc this formula
+                return ((b2 - b1) / (m1 - m2) + curGuess) / 2;
+            }
+
+            $(document).ready(function () {
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+
+                $('#submitButton').click(function () {
+                    $('#flowchart').hide();
+                    var m1 = parseFloat($('#m1').val());
+                    var m2 = parseFloat($('#m2').val());
+                    var b1 = parseFloat($('#b1').val());
+                    var b2 = parseFloat($('#b2').val());
+                    var marginOfError = parseFloat($('#error').val());
+                    var curGuess = 0.5;
+                    var error = 1000;
+                    var errorFlag = false;
+                    var diff = m1 - m2;
+                    if (diff < 0)
+                        diff = diff * -1;
+                    if (diff < 0.1)
+                        errorFlag = true;
+
+                    if (errorFlag == false) {
+                        while (error > marginOfError) {
+                            curGuess = getNextGuess(m1, m2, b1, b2, curGuess)
+                            //console.log(curGuess);
+                            error = calcError(getY(m1, b1, curGuess), getY(m2, b2, curGuess));
+                        }
+                        var data = ",";
+                        var start = Math.round(curGuess) - 2;
+                        var end = Math.round(curGuess) + 2;
+                        var x = start;
+                        $('#details1').html("<p class=lead>Intersection Point is (" + round(curGuess).toString() + ", " + round(getY(m1, b1, curGuess)).toString() + ")<p>(Change the slope and constants and try it again!)</p>");
+                        while (x <= end) {
+                            data = data + "[" + x + "," + getY(m1, b1, x) + "," + getY(m2, b2, x) + "],"
+                            x = x + 1;
+                        }
+                        $('#details2').html("<p class=lead><a href='http://mathcode.net/chart2.cshtml?id=" + data + "''>See Graph</a>&nbsp;&nbsp;<b><== Click To View! </b><img src='images/start.jpg' alt='start' width='15px' height='15px' /></p>");
+                    }
+                    else {
+                        $('#details1').html("<p class=lead>The Intersection was not Found.  The Lines are Parallel.  Enter a new line.</p>");
+                        $('#details2').html("");
+                    }
+
+
+
+                });
+            });
+
+        </script>
+
+        <div id="includedContent"></div>
+        <div class="container">
+
+            <h4>Find the Intersection Between Two Lines</h4>
+
+            <p>Line 1:  f(x) =  <input type="text" id="m1" style="width:30px;" value="1" /> x + 
+                <input type="text" id="b1" value="-3" style="width:30px;"/></p>
+            <p>Line 2:  f(x) =  <input type="text" id="m2" style="width:30px;" value="-2" /> x + 
+                <input type="text" id="b2" value="4" style="width:30px;"/></p>
+            <p>Margin of Error:  <input type="text" id="error" style="width:30px;" value="0.1" maxlength="3" /></p>                
+
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" id="submitButton" value="Find Intersection" />&nbsp;&nbsp;&nbsp;&nbsp;<b><== Try It! <img src="images/start.jpg" alt="star" width="20px" height="20px" /></b></p>
+            <br/><hr/><br/>
+            <div id="details1"></div>      
+            <div id="details2"></div>   
+            <div id="flowchart" style="text-align: center"><br/><img src="images/flow_twolines.png" class="img-thumbnail" alt="flowchart" /></div> 
+        </div>
+    </body>
+</html>
+

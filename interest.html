@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script>
+            function annualInterest(prin, years, annualRate) {
+                var multFactor = 1.0;
+                for (var i = 0; i < years; i++) {
+                    multFactor = multFactor * (1 + annualRate)
+                }
+                return Math.round(prin * multFactor);
+            }
+
+            var points = ",";
+            $(document).ready(function () {
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+                $('#submitButton').click(function () {
+                    $('#flowchart').hide();
+                    var prin = parseFloat($('#input1').val());
+                    var years = parseFloat($('#input2').val());
+                    var annualRate = parseFloat($('#input3').val());
+                    var points = ",";
+
+                    for (var j = 0; j < years; j++) {
+                        points = points + "[" + j + "," + annualInterest(prin, j, annualRate) + "],"
+                    }
+                    
+                    points = "<a href=http://mathcode.net/chart.cshtml?id=" + points + ">View Graph</a>";
+                    $('#details').html("&nbsp;&nbsp;&nbsp;&nbsp;The investment will be worth $" + annualInterest(prin, years, annualRate).toString());
+                    $('#link').html("&nbsp;&nbsp;&nbsp;&nbsp;" + points);
+                });
+            });
+        </script>
+        <div id="includedContent"></div>
+        <div class="container">
+        <h3>Calculate The Value of An Investment -- Compound Interest Rates</h3>
+        <br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;Principle: $<input type="text" value="100" style = "width:50px" id="input1" />
+        &nbsp;&nbsp;&nbsp;&nbsp;# Years: <input type="text" value="20" maxlength="2" style = "width:50px" id="input2" />
+        &nbsp;&nbsp;&nbsp;&nbsp;Interest Rate: <input type="text" value="0.06" style = "width:50px" id="input3" />        
+        &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value = "Calculate" id="submitButton" />&nbsp;&nbsp;&nbsp;<==&nbsp;&nbsp;<b>Try It!</b>&nbsp;&nbsp;<img src="../images/start.jpg" alt="star" width="20px" height="20px" />           
+        <br/><br/>
+        <div id="link"></div>
+        <br/>
+        <div id="details"></div>
+        <br/><hr/>
+        <div id="flowchart" style="text-align: center"><img src="images/flow_interest.png" class="img-thumbnail" alt="flowchart poly" /></div>
+        
+        </div>
+    </body>
+</html>
+

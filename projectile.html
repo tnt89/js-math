@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script type="text/JavaScript">
+
+            function getRadians(angle) {
+                return (angle*2*Math.PI)/360;
+            }
+
+            function getInitialVelocityY(initialVelocity,angle){
+                return Math.sin(getRadians(angle))*initialVelocity
+            }
+
+            function getInitialVelocityX(initialVelocity,angle){
+                return Math.cos(getRadians(angle))*initialVelocity
+            }
+
+            function getTimeAtMaxHeight (initialVelocity,angle) {
+                var t = getInitialVelocityY(initialVelocity,angle) / 9.8;
+                return t;
+            }
+
+            function getTotalTime(initialVelocity,angle) {
+                return getTimeAtMaxHeight(initialVelocity,angle) * 2;
+            }
+
+            function getMaxHeight(initialVelocity,angle) {
+                var height = getInitialVelocityY(initialVelocity,angle) * getTimeAtMaxHeight(initialVelocity,angle) - 4.9 * (getTimeAtMaxHeight(initialVelocity,angle) * getTimeAtMaxHeight(initialVelocity,angle));
+                return height;
+            }
+
+            function getTotalDistanceX(initialVelocity,angle) {
+                return getTotalTime(initialVelocity,angle) * getInitialVelocityX(initialVelocity,angle);                
+            }
+
+
+            $(document).ready(function () {
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+                $('#submitButton').click(function () {
+                    //alert("hello");
+                    var initialVelocity = $('#input1').val();
+                    var angle = $('#input2').val();
+
+                    var TotalTime = getTotalTime(initialVelocity,angle);
+                    var TimeInterval = TotalTime/10;
+
+                    var strResults="<table class='table'><tr><th>X</th><th>Y</th></tr>";
+                    var points = ",";
+
+                    for (var t=0; t<=getTotalTime(initialVelocity,angle); t=t+TimeInterval)
+                    {
+                        strResults = strResults + "<tr>";
+                        var x = getInitialVelocityX(initialVelocity,angle) * t;
+                        var y = getInitialVelocityY(initialVelocity,angle) * t -4.9 * t * t;
+                        console.log(Math.round(x) + " " + Math.round(y));
+                        strResults = strResults + "<td>" + Math.round(x) + "</td>";            
+                        strResults = strResults + "<td>" + Math.round(y) + "</td>";
+                        strResults = strResults + "</tr>";
+                        points = points + "[" + x + "," + y + "],"
+                    }
+
+                    var totalDis = getTotalDistanceX(initialVelocity, angle);
+                    var maxHeight = getMaxHeight(initialVelocity, angle);
+                    
+                    $('#details').html(strResults);
+                    $('#results').html("Total Distance is " + Math.round(totalDis) + " meters.<br/>Time in Flight is " +  Math.round(TotalTime) + " seconds<br/>Max Height is " + Math.round(maxHeight) + " meters.");
+                    $('#link').html("<p class=lead><a href='http://mathcode.net/chart.cshtml?id=" + points + "''>View Graph</a> <img src=images/start.jpg alt=star height=20px width=20px /></p>");
+
+                });
+            });
+
+
+
+        </script>
+
+        <div id="includedContent"></div>
+        <div class='container' id='page'>
+
+        <h3>Projectile Motion</h3>
+        <br/>
+        <p>Calculate the distance traveled, the time in flight, and the maximum height of a projectile given the below initial velocity and angle from the horizonal.</p>
+        <p>Initial Velocity:  <input type="text" id="input1" value ="115" maxlength="5" size="5" /> meters/sec</p>
+        <p>Angle:  <input type="text" id="input2" value ="42" maxlength="2" size="2" /> degrees (5-85)</p>
+        <p><input type="submit" id="submitButton" value=" Launch Projectile " /></p>
+        <br/><hr/><br/>
+        <div id="link"></div><br/>
+        <div id="results"></div><br/>
+        <div id="details"></div>
+        </div>        
+    </body>
+</html>
+

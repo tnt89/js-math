@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script type="text/JavaScript">
+
+            function fx(a, b, c, d, x) {
+                var y = 0.0;
+                y = a * x * x * x + b * x * x + c * x + d;
+                return y;
+            }
+
+            $(document).ready(function () {
+
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+
+                $('#submitButton').click(function () {
+                    $('#flowchart').hide();
+                    var start = parseFloat($('#start').val());
+                    var end = parseFloat($('#end').val());
+                    var x = 0.0;
+                    var inc = parseFloat($('#inc').val());
+                    x = start;
+                    var strResults = "<table style:'width=50%' class='table'><tr><th>X</th><th>Y</th></tr>";
+                    //var points = ",[5,1000],[10,1170],[15,660],[20,1030]"
+                    var points = ",";
+                    while (x <= end) {
+                        strResults = strResults + "<tr>";
+                        y = fx(parseFloat($('#input1').val()), parseFloat($('#input2').val()), parseFloat($('#input3').val()), parseFloat($('#input4').val()), x);
+                        strResults = strResults + "<td>" + x.toString() + "</td>";
+                        strResults = strResults + "<td>" + y.toString() + "</td>";
+                        strResults = strResults + "</tr>";
+                        points = points + "[" + x + "," + y + "],"
+                        x = x + inc;
+                    }
+                    strResults = strResults + "</table>";
+                    $('#details').html(strResults);
+                    points = "<a href=http://mathcode.net/chart.cshtml?id=" + points + ">See Graph</a>&nbsp;&nbsp;<== Click to View <img src='images/start.jpg' alt='start' width='15px' height='15px' /><p>(Change coefficients to plot a new polynomial.)";
+                    if (points.length>1000)
+                    {  points = "There are too many points to create a graph."}
+                    $('#link').html("<p class=lead>" + points + "</p>");
+
+                });
+            });
+
+        </script>
+
+        <div id="includedContent"></div>
+        <div class="container">
+        <h3>&nbsp;&nbsp;Build a Table of XY Coodinates for Polynomial Curve</h3>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;f(x) = <input type="text" id="input1" style="width:30px;" value="0" />x^3 + <input type="text" id="input2" style="width:30px;" value="1"/>x^2 + 
+        <input type="text" id="input3" style="width:30px;" value="0" />x + <input type="text" id="input4" value="0" style="width:30px;"/></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;start: <input type="text" id="start" style="width:30px;" value="-5" /> &nbsp;&nbsp;&nbsp;&nbsp;end: <input type="text" id="end" style="width:30px;" value="5" /> &nbsp;&nbsp;&nbsp;&nbsp;increment: <input type="text" id="inc" style="width:30px;" value="1" /></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" id="submitButton" value="Build XY Coordinates" />&nbsp;&nbsp;&nbsp;&nbsp;<b><== Try It! <img src="images/start.jpg" alt="star" width="20px" height="20px" /></b></p>
+        <br/><hr/><br/>
+        <table>
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td></td>
+            </tr>
+        </table>
+        <div id="link"></div>
+        <div id="details"></div>
+        <div id="flowchart" style="text-align: center"><br/><img src="images/flow_poly.png" class="img-thumbnail" alt="flowchart" /></div> 
+        </div>
+    </body>
+</html>
+

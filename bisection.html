@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <title>MathCode.net</title>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap3/css/Site.css" />
+    <link href="bootstrap3/css/theme.bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap3/css/bootstrap-responsive.css" rel="stylesheet" />     
+    <script src="scripts/jquery-1.7.1.min.js"></script>
+    <script src="scripts/jquery1.11.0.min.js"></script>
+    <!--
+    <script src="scripts/jquery-ui-1.8.20.min.js"></script>
+    <script src="scripts/chosen.jquery.js"></script>
+    <script src="scripts/respond.src.js"></script> 
+    -->
+    <script src="bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+    
+    </style>
+</head>
+    <body>
+        <script>
+
+            function fx(a,b,c,d,x) {
+                // returns the function value
+                var y = 0.0;
+                y = a*x*x*x+b*x*x+c*x+d;
+                return y;
+            }
+
+            function getMid(start, end) {
+                // returns the midpoint
+                var mid=0.0;
+                mid = (start + end)/2;
+                //alert('mid ' + mid);
+                return mid;
+            }
+
+            function verifyOppositeSign(x1,x2,a,b,c,d) {
+                // verify that the two point have opposite signs
+                var fx1 = fx(a,b,c,d,x1);
+                var fx2 = fx(a,b,c,d,x2);
+                if (fx1*fx2 < 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            function getRoot(start,end,a,b,c,d,marginOfError) {
+                
+                var ans=0;
+                var y = 0;
+                count = 0
+
+                y = fx(a,b,c,d,getMid(start,end)) 
+                if (y < 0)
+                {  
+                    // adjust marginOfError to be positive
+                    y = y * -1; 
+                }                
+
+                while (y > marginOfError)                
+                {
+                    count = count + 1;
+
+                    if (fx(a,b,c,d,start) == 0)
+                    {                                
+                        // if f(start)==0                    
+                        return start;
+                    }                        
+                    if (fx(a,b,c,d,end) == 0 )
+                    {
+                        // if f(end) = 0
+                        return end;
+                    }
+                    if (fx(a,b,c,d,getMid(start,end)) == 0)
+                    {                            
+                        // if f(mid) = 0
+                        return getMid(start,end);
+                    }
+
+                    if (fx(a,b,c,d,start) * fx(a,b,c,d,getMid(start,end)) < 0 )
+                    {
+                        // reset the end point to the mid point
+                        start = start;
+                        end = getMid(start,end);
+                    }
+                    else
+                    {
+                        // reset the start point to the mid point
+                        start = getMid(start,end);
+                        end = end;
+                    }
+
+                    // recalcuate y based on new start and end
+                    y = fx(a,b,c,d,getMid(start,end)) 
+                    if (y < 0)
+                    {  
+                        // adjust marginOfError to be positive
+                        y = y * -1; 
+                    }
+
+                    if (y < marginOfError )
+                    {
+                        ans = getMid(start,end);
+                        return ans;
+                    }
+
+                }                        
+                ans = getMid(start,end);
+                return ans;                
+            }
+
+
+            $(document).ready(function (){
+                $(function () {
+                    $("#includedContent").load("header.html");
+                });
+                $('#submitButton').click(function () {                    
+                    var a = parseFloat($('#input1').val()); 
+                    var b = parseFloat($('#input2').val()); 
+                    var c = parseFloat($('#input3').val()); 
+                    var d = parseFloat($('#input4').val()); 
+                    var marginOfError = parseFloat($('#err').val()); 
+                    var start = parseFloat($('#start').val()); 
+                    var end = parseFloat($('#end').val()); 
+                    var ans = 0;    // final answer stored here.
+
+                    if (!verifyOppositeSign(start,end,a,b,c,d))
+                    {
+                        $('#details').html("The function evaluated at start and end must be opposite signs.");
+                    }                
+                    else
+                    {
+                        var count = 0;
+                        $('#details').html("<p class=lead>The root is " + getRoot(start,end,a,b,c,d,marginOfError).toString() + "</p>");
+                        console.log(count);
+                    }
+
+                });
+            });
+            
+        </script>
+        
+        <div id="includedContent"></div>
+        <div class="container">
+
+        <h3>&nbsp;&nbsp;Find the Root of a Polynomial Using the Bisection Method</h3>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;f(x) = <input type="text" id="input1" style="width:30px;" value="0" />x^3 + <input type="text" id="input2" style="width:30px;" value="1"/>x^2 + 
+        <input type="text" id="input3" style="width:30px;" value="0" />x + <input type="text" id="input4" value="-1" style="width:30px;"/></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;start: <input type="text" id="start" style="width:30px;" value="0" /> &nbsp;&nbsp;&nbsp;&nbsp;end: <input type="text" id="end" style="width:30px;" value="5" /> &nbsp;&nbsp;&nbsp;&nbsp;Margin Of Error: <input type="text" id="err" style="width:60px;" value="0.001" /></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" id="submitButton" value="Find the Root" /></p>
+        <br/><hr/><br/>
+        <table>
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><div id="details"></div></td>
+            </tr>
+        </table>
+        </div>
+    </body>
+</html>
+
